@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,9 +16,28 @@ public class ZikaZeroAnelDual {
 
 	static int sizeFocuses = 0;
 	
-	public static void countConflictGreedy(Graph g){
+	public static int[] generateGreedyArray(Graph g, int[] allOcurrences){
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		int minIndex, vertex;
+		int[] greedyArray = new int[g.Size()];
+		
+		for(int i : allOcurrences)
+			al.add(i);
+		
+		int size = al.size();
+		
+		for(int i = 0; i < size; i++){
+			minIndex = al.indexOf(Collections.min(al));
+			vertex = minIndex + 1;
+			greedyArray[i] = vertex;
+			al.set(minIndex, 1000000);
+		}
+		return greedyArray;
+	}
+	
+	public static int[] countConflictGreedy(Graph g){
 		int[] focus = new int[2];
-		int[] allFocus, countConflict, allOccurence;
+		int[] allFocus, countConflict, allOccurence, greedyArray;
 
 		ArrayList<Integer> al = new ArrayList<Integer>();
 		
@@ -27,11 +47,15 @@ public class ZikaZeroAnelDual {
 				al.add(e);
 		}
 		
-		allFocus = fillArrayOneAL(al);
+		allFocus = UtilFunctions.fillArrayOneAL(al);
 		countConflict = createConflictRelation(allFocus);
 		allOccurence = vertexConflictRelation(g, countConflict);
-		for (int i : allOccurence)
-			System.out.print(i + " ");
+		//for (int i : allOccurence)
+			//System.out.print(i + " ");
+		greedyArray = generateGreedyArray(g, allOccurence);
+		//for (int i : greedyArray)
+			//System.out.print(i + " ");
+		return greedyArray;
 	}
 	
 	public static int[] createConflictRelation(int[] arr){
@@ -64,7 +88,6 @@ public class ZikaZeroAnelDual {
 		}
 			
 		return allOcc;
-		 
 	}
 	
 	public static int[] fillArrayTwoAL(ArrayList<Integer> al1, ArrayList<Integer> al2){
@@ -83,35 +106,7 @@ public class ZikaZeroAnelDual {
 		
 		return arr;
 	}
-	
-	public static void writeSolution(int[] solution, String outputFile){
-		Writer w = null;
-		
-		try{
-			w = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(outputFile)));
 
-			for (int i : solution){
-				w.write(i + " ");
-				System.out.print(i + " ");
-			}
-		
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-		} finally {
-			try {w.close();} catch (Exception ex) {}
-		}
-	}
-	
-	public static int[] fillArrayOneAL(ArrayList<Integer> al){
-		int[] arr = new int[al.size()];
-		
-		for(int i = 0; i < al.size(); i++)
-			arr[i] = al.get(i);
-		
-		return arr;
-	}
-	
 	public static ArrayList<Integer> fillArrayList(int[] arr){
 		ArrayList<Integer> al = new ArrayList<Integer>();
 
@@ -119,79 +114,6 @@ public class ZikaZeroAnelDual {
 			al.add(i);
 		
 		return al;
-	}
-	
-	public static int[] removeDuplicates(int[] arr) {
-		  Set<Integer> alreadyPresent = new HashSet<Integer>();
-		  int[] whitelist = new int[0];
-
-		  for (int nextElem : arr) {
-		    if (!alreadyPresent.contains(nextElem)) {
-		      whitelist = Arrays.copyOf(whitelist, whitelist.length + 1);
-		      whitelist[whitelist.length - 1] = nextElem;
-		      alreadyPresent.add(nextElem);
-		    }
-		  }
-
-		  return whitelist;
-		}
-	
-	public static boolean testSolution(int[] arr){
-		int[] solution = new int[sizeFocuses];
-		Boolean same = false;
-		int[] solutionWD;
-		
-		for(int i = 0; i < solution.length; i++)
-			solution[i] = i+1;
-		
-		Quicksort qs = new Quicksort();
-		
-		qs.sort(arr);
-		
-		solutionWD = removeDuplicates(arr);
-		
-		if(Arrays.equals(solution, solutionWD)) return true;
-		else return false;
-		//for (int i = 0; i < solution.length; i++)
-			//if(solution[i] == arr[i]) same = true;
-			
-		
-		//return same;
-	}
-
-	public static void BruteForce(Graph graph, String outputFile){
-		int vertex = 1;
-		int size = (sizeFocuses/2) - 1;
-
-		ArrayList<Integer> solution = new ArrayList<Integer>();
-		int[] partialSol = new int[2];
-		int[] entireSolution;
-		int[] solVertex;
-		Boolean done = false;
-		//int[] solVertex = new int[sizeFocuses/2];
-
-		for(int m = 0; m <= sizeFocuses/2 && !done; m++){
-			size++;
-			solVertex = new int[size];
-			for(int i = 1; i <= graph.Size(); i++){
-				vertex = i;
-				for(int j = 0; j < size; j++){
-					partialSol = graph.returnFocuses(vertex);
-					for(int ele : partialSol)
-						solution.add(ele);
-					solVertex[j] = vertex;
-					vertex = graph.nextAdj(vertex);
-				}
-				entireSolution = fillArrayOneAL(solution);
-				solution.clear();
-				if(testSolution(entireSolution)){
-					writeSolution(solVertex, outputFile);
-					done = true;
-					break;
-				}
-			}
-		}
-		//System.out.println("I'm done!");
 	}
 	
 	public static Graph constructGraph(String inputFile) throws IOException{
@@ -251,11 +173,13 @@ public class ZikaZeroAnelDual {
 		args[1] = "/Users/gesteves/Documents/workspace/Paradigms/src/out_gt";
 		//args[0] = "nothing";
 		Graph g = constructGraph(args[0]);
+		int[] greedy;
 		//int[] f = g.returnFocuses(2);
 		//for(int i : f)
 			//System.out.println(i);
 		//System.out.println(g.nextAdj(3));
-		BruteForce(g, args[1]);
+		greedy = countConflictGreedy(g);
+		Greedy.RunGreedy(g, args[1], greedy);
 		//ZikaZeroAnelDual.countConflictGreedy(g);
 		//g.insertEdge(1, vector);
 		//g.insertEdge(7, 2);

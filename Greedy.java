@@ -1,16 +1,8 @@
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
-public class BruteForce {
+public class Greedy {
 	
-	public static void RunBruteForce(Graph graph, String outputFile){
+	public static void RunGreedy(Graph graph, String outputFile, int[] greedyArray){
 		int vertex = 1;
 		int size = (ZikaZeroAnelDual.sizeFocuses/2) - 1;
 
@@ -22,8 +14,8 @@ public class BruteForce {
 		for(int m = 0; m <= ZikaZeroAnelDual.sizeFocuses/2 && !done; m++){
 			size++;
 			solVertex = new int[size];
-			for(int i = 1; i <= graph.Size(); i++){
-				vertex = i;
+			for(int i = 0; i < greedyArray.length; i++){
+				vertex = greedyArray[i];
 				for(int j = 0; j < size; j++){
 					partialSol = graph.returnFocuses(vertex);
 					for(int ele : partialSol)
@@ -41,7 +33,5 @@ public class BruteForce {
 			}
 		}
 	}
-	
-	
 	
 }
