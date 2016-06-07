@@ -1,15 +1,8 @@
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class BruteForce {
-	
+
 	public static void RunBruteForce(Graph graph, String outputFile){
 		int vertex = 1;
 		int size = (ZikaZeroAnelDual.sizeFocuses/2) - 1;
@@ -19,7 +12,7 @@ public class BruteForce {
 		int[] entireSolution, solVertex;
 		Boolean done = false;
 
-		for(int m = 0; m <= ZikaZeroAnelDual.sizeFocuses/2 && !done; m++){
+		for(int m = 0; m <= graph.Size()/2 && !done; m++){
 			size++;
 			solVertex = new int[size];
 			for(int i = 1; i <= graph.Size(); i++){
@@ -42,6 +35,23 @@ public class BruteForce {
 		}
 	}
 	
-	
-	
+	public static void main(String[] args) throws IOException {
+		long startTime = System.currentTimeMillis();
+
+		long total = 0;
+		for (int i = 0; i < 10000000; i++) 
+			total += i;
+		
+		//args[0] = "/Users/gesteves/Documents/workspace/Paradigms/src/in1000";
+		//args[1] = "/Users/gesteves/Documents/workspace/Paradigms/src/out1000";
+		
+		Graph g = ZikaZeroAnelDual.constructGraph(args[0]);
+		BruteForce.RunBruteForce(g, args[1]);
+
+		long stopTime = System.currentTimeMillis();
+		long elapsedTime = stopTime - startTime;
+		System.out.println(elapsedTime);
+
+	}
+
 }

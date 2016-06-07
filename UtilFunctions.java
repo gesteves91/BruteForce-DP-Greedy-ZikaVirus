@@ -21,12 +21,50 @@ public class UtilFunctions {
 				w.write(i + " ");
 				System.out.print(i + " ");
 			}
+			System.out.println();
 		
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
 		} finally {
 			try {w.close();} catch (Exception ex) {}
 		}
+	}
+	
+	public static int[] addNextEle(int[] arr, int ele){
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		
+		for(int i : arr)
+			al.add(i);
+		
+		int[] newArr = new int[al.size()+1];
+		
+		for(int i = 0; i < newArr.length-1; i++)
+			newArr[i] = al.get(i);
+		
+		newArr[newArr.length-1] = ele;
+		
+		return newArr;
+	}
+	
+	public static int[] sumUpTwoArrays(int[] arrA, int[] arrB){
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		int[] arrR, arrSuperR;
+		
+		for(int i : arrA)
+			al.add(i);
+		
+		for(int i : arrB)
+			al.add(i);
+		
+		arrR = new int[al.size()];
+		
+		for(int i = 0; i < arrR.length; i++)
+			arrR[i] = al.get(i);
+		
+		arrSuperR = UtilFunctions.removeDuplicates(arrR);
+		
+		return arrSuperR;
+			
 	}
 	
 	public static boolean testSolution(int[] arr){
@@ -69,5 +107,31 @@ public class UtilFunctions {
 			arr[i] = al.get(i);
 		
 		return arr;
+	}
+	
+	public static int[] fillArrayTwoAL(ArrayList<Integer> al1, ArrayList<Integer> al2){
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		
+		for (int i : al1)
+			result.add(i);
+		
+		for (int i : al2)
+			result.add(i);
+		
+		int[] arr = new int[result.size()];
+		
+		for(int i = 0; i < result.size(); i++)
+			arr[i] = result.get(i);
+		
+		return arr;
+	}
+
+	public static ArrayList<Integer> fillArrayList(int[] arr){
+		ArrayList<Integer> al = new ArrayList<Integer>();
+
+		for(int i : arr)
+			al.add(i);
+		
+		return al;
 	}
 }
