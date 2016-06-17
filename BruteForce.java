@@ -42,8 +42,8 @@ public class BruteForce {
 		for (int i = 0; i < 10000000; i++) 
 			total += i;
 		
-		//args[0] = "/Users/gesteves/Documents/workspace/Paradigms/src/in1000";
-		//args[1] = "/Users/gesteves/Documents/workspace/Paradigms/src/out1000";
+		//args[0] = "/Users/gesteves/Documents/workspace/Paradigms/src/in10000-2";
+		//args[1] = "/Users/gesteves/Documents/workspace/Paradigms/src/out10000-2";
 		
 		Graph g = ZikaZeroAnelDual.constructGraph(args[0]);
 		BruteForce.RunBruteForce(g, args[1]);

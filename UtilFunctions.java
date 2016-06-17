@@ -19,9 +19,9 @@ public class UtilFunctions {
 
 			for (int i : solution){
 				w.write(i + " ");
-				System.out.print(i + " ");
+				//System.out.print(i + " ");
 			}
-			System.out.println();
+			//System.out.println();
 		
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());

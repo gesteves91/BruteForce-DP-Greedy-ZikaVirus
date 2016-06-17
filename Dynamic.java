@@ -29,7 +29,7 @@ public class Dynamic {
 						done = true;
 						break;
 					}
-					Dynamic.alterDataTable(i, solVertex, entireSolution);
+					Dynamic.dynamicDataTable(i, solVertex, entireSolution);
 				}
 			}
 		}
@@ -87,8 +87,8 @@ public class Dynamic {
 		for (int i = 0; i < 10000000; i++) 
 			total += i;
 		
-		//args[0] = "/Users/gesteves/Documents/workspace/Paradigms/src/in100";
-		//args[1] = "/Users/gesteves/Documents/workspace/Paradigms/src/out100";
+		//args[0] = "/Users/gesteves/Documents/workspace/Paradigms/src/inFDP";
+	    //args[1] = "/Users/gesteves/Documents/workspace/Paradigms/src/outFDP";
 
 		Graph g = ZikaZeroAnelDual.constructGraph(args[0]);
 		Dynamic.RunDynamic(g, args[1]);
